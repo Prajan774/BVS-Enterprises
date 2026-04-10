@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JCB Log Sheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url("https://wallpaperaccess.com/full/2577933.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.logo {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 80px;
+    height: auto;
+    border-radius: 10px;
+    
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    color: white;
+    position: relative;
+}
+
+.contact {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    text-align: right;
+    font-size: 12px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.header p {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.header small {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #00c6ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0072ff;
+}
+
+.print-btn {
+    margin-top: 10px;
+    background: #28a745;
+}
+
+.print-btn:hover {
+    background: #1f7d34;
+}
+
+.result {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .container {
+        background: white;
+        color: black;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
+
+    button {
+        display: none;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <img src="Construction machinery logo .png" alt="BVS Logo" class="logo">
+
+
+    <div class="contact">
+        <b>Cell:
+        8925087813<br>
+        8667883585<br>
+        9344597408
+    </div>
+
+    <div class="header">
+        <h1 style="font-family: 'Times New Roman', Times, serif;">BVS ENTERPRISES</h1>
+        <p>GCC Contractors & Earth Suppliers</p>
+        <small>
+            Vibrator Roller, Static Roller, Paver, Bitumen Sprayer Machine,
+            Earth & Rubbish Filling, Foundation Laying, Low Level Area Filling & Levelling,
+            JCB, Tipper Hiring<br>
+            No:33, Ram Nagar 6th Main Road, Kuberan Nagar, Velachery, Chennai - 600042. <BR>
+            GSTIN:33BUJPV5506J1ZA
+        </small>
+        <HR></HR>
+    </div>
+
+    <label>Date</label>
+    <input type="date" id="date">
+
+    <label>To Address</label>
+    <textarea id="address" placeholder="Enter customer address..."></textarea>
+
+    <label>Shift</label>
+    <select id="shift">
+        <option value="">Select Shift</option>
+        <option value="Day">Day</option>
+        <option value="Night">Night</option>
+    </select>
+
+    <label>Working Place</label>
+    <input type="text" id="place" placeholder="Enter working place">
+
+    <label>Nature of Work</label>
+    <input type="text" id="work" placeholder="Enter nature of work">
+
+    <label>Starting Reading</label>
+    <input type="number" id="start" placeholder="Enter starting reading" oninput="calculate()">
+
+    <label>Closing Reading</label>
+    <input type="number" id="end" placeholder="Enter closing reading" oninput="calculate()">
+
+    <label>Rate per Unit (₹)</label>
+    <input type="number" id="rate" value="1000" placeholder="Enter rate" oninput="calculate()">
+
+    <label>Advance (₹)</label>
+    <input type="number" id="advance" value="0" placeholder="Enter advance amount" oninput="calculate()">
+
+    <button onclick="calculate()">Calculate</button>
+    <button onclick="printDocument()" class="print-btn">Print Document</button>
+
+    <div class="result" id="output">
+        Result will appear here...
+    </div>
+
+</div>
+
+<script>
+function printDocument() {
+    window.print();
+}
+
+function calculate() {
+    const start = parseFloat(document.getElementById("start").value);
+    const end = parseFloat(document.getElementById("end").value);
+    const rate = parseFloat(document.getElementById("rate").value);
+    const advance = parseFloat(document.getElementById("advance").value) || 0;
+    const shift = document.getElementById("shift").value;
+
+    if (isNaN(start) || isNaN(end)) {
+        return;
+    }
+
+    const units = end - start;
+    const total = units * rate;
+    const finalAmount = total - advance;
+
+    document.getElementById("output").innerHTML = `
+        <b>Shift:</b> ${shift || "-"} <br>
+        <b>Units Used:</b> ${units.toFixed(2)} <br>
+        <b>Total Amount:</b> ₹${total.toFixed(2)} <br>
+        <b>Advance:</b> ₹${advance.toFixed(2)} <br>
+        <hr>
+        <b style="color:black;">Final Amount: ₹${finalAmount.toFixed(2)}</b>
+    `;
+}
+</script>
+
+</body>
+</html>
